@@ -1,0 +1,16 @@
+# Runs the Slack bot. Set up first with `npx ako setup` on your machine, which
+# writes .env and release-flow.yaml next to this file, then:
+#
+#   docker compose up -d
+#
+# AKO connects out to Slack and GitHub, so no ports are opened.
+services:
+  ako:
+    build: .
+    image: deriv-ako
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./release-flow.yaml:/config/release-flow.yaml:ro
+      # Only when .env points GITHUB_APP_PRIVATE_KEY_PATH at a file:
+      # - ./secrets:/config/secrets:ro

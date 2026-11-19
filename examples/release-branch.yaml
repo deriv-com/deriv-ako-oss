@@ -1,0 +1,56 @@
+# Two apps on ClickUp. The mobile app develops on `staging` and ships from
+# `main`: at approval AKO promotes the tested commit into main and tags that
+# merge. The site releases from one branch. Settings shared by both projects
+# sit under `defaults`. The names and IDs here are made up.
+version: 1
+
+defaults:
+  approval: others
+  people:
+    release_managers:
+      slack: [S000000001]
+    qa:
+      slack: [S000000002]
+  slack:
+    channels: [C000000002]
+
+projects:
+  - key: mobile
+    name: Mobile App
+    aliases: [app]
+    repo: acme/mobile-app
+    tracker:
+      type: clickup
+      list: "900000000001"
+      release_list: "900000000002"
+      release_template: "abc123"
+      pr_field: PR Link
+      statuses:
+        ready: [ready for release]
+        staged: on staging
+        ready_for_release: qa passed
+        done: released
+    release:
+      type: release-branch
+      from: staging
+      to: main
+      tag_prefix: production-
+    deploy:
+      type: commit-status
+      context: ci/bitrise
+    steps: qa-regression
+
+  - key: site
+    name: Marketing Site
+    repo: acme/site
+    tracker:
+      type: clickup
+      list: "900000000003"
+      statuses:
+        ready: [ready for release]
+        ready_for_release: qa passed
+        done: released
+    deploy:
+      type: actions
+      workflow: publish.yml
+    steps: [pick_issues, open_release, announce_regression, approval, publish, watch_deploy, archive]

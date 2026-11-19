@@ -1,0 +1,39 @@
+# A web app on a GitHub Projects board. PRs merge to main, staging deploys
+# from main, QA regression-tests it, and a release manager approves the tag.
+# The names and IDs here are made up.
+version: 1
+
+projects:
+  - key: web-app
+    name: Web App
+    aliases: [web, webapp]
+    repo: acme/web-app
+    tracker:
+      type: github-projects
+      number: 3
+      statuses:
+        ready: Ready for Staging
+        staged: Staged
+        ready_for_release: Ready for Release
+        done: Done
+        # Closed issues whose PRs already reached main, left behind in an
+        # earlier column, are offered too.
+        catch_up: [In Progress, In Review]
+    release:
+      type: tag
+      branch: main
+      tag_prefix: production_v
+    deploy:
+      type: actions
+      workflow: deploy-production.yml
+    steps: qa-regression
+    approval: others
+    people:
+      release_managers:
+        github: [alice, acme/release-managers]
+        slack: [U000000001, S000000001]
+      qa:
+        github: [bob]
+        slack: [S000000002]
+    slack:
+      channels: [C000000001]

@@ -1,0 +1,18 @@
+{
+  "name": "AKO",
+  "url": "https://github.com/deriv-com/deriv-ako-oss",
+  "description": "Deriv AKO: picks up ready work, opens releases, merges linked PRs, and tags and publishes after a release manager approves.",
+  "public": false,
+  "hook_attributes": {
+    "url": "https://github.com/deriv-com/deriv-ako-oss",
+    "active": false
+  },
+  "default_permissions": {
+    "metadata": "read",
+    "contents": "write",
+    "pull_requests": "write",
+    "issues": "write",
+    "actions": "read"
+  },
+  "default_events": []
+}

@@ -1,0 +1,27 @@
+# A small service with no QA step and no board: plain GitHub issues with a
+# label per status. A release manager approves straight away, and AKO watches
+# the check run the tag starts. The names and IDs here are made up.
+version: 1
+
+projects:
+  - key: api
+    name: Public API
+    repo: acme/public-api
+    tracker:
+      type: github-issues
+      statuses:
+        ready: merged
+        ready_for_release: merged
+        done: closed # `closed` closes the issue instead of adding a label
+    release:
+      type: tag
+      branch: main
+      tag_prefix: v
+    deploy:
+      type: check-run
+      check: deploy-production
+    steps: direct-release
+    approval: others
+    people:
+      release_managers:
+        github: [carol]

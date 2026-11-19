@@ -1,0 +1,25 @@
+{
+  "name": "deriv-ako",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Deriv AKO (Automated Kanban Orchestrator): an open-source release manager for the terminal and Slack.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "ako": "bin/ako.js"
+  },
+  "engines": {
+    "node": ">=22.4"
+  },
+  "scripts": {
+    "setup": "node bin/ako.js setup",
+    "setup:ui": "node bin/ako.js setup --ui",
+    "check": "node bin/ako.js check",
+    "test": "node --test",
+    "leak-check": "node scripts/leak-check.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "1.8.1",
+    "yaml": "^2.9.1"
+  }
+}
